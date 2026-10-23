@@ -20,14 +20,15 @@
 
     <!-- 5. Cartão principal da interface de autenticação -->
     <main class="glass-card">
+        <!-- 5.1. Conteúdo de autenticação ocultado quando a sessão fica ativa -->
         <div id="auth-shell">
-            <!-- 5.1. Título e descrição atualizados ao alternar entre login e cadastro -->
+            <!-- 5.1.1. Título e descrição atualizados ao alternar entre login e cadastro -->
             <header class="header">
                 <h2 id="form-title">Bem-vindo de volta</h2>
                 <p id="form-subtitle">Insira suas credenciais para acessar sua conta</p>
             </header>
 
-            <!-- 5.2. Navegação por abas para alternar login e cadastro no mesmo cartão -->
+            <!-- 5.1.2. Navegação por abas para alternar login e cadastro no mesmo cartão -->
             <div class="auth-tabs" role="tablist" aria-label="Formulários de autenticação">
                 <button type="button" class="auth-tab active" id="login-tab" role="tab" aria-selected="true" aria-controls="login-form" tabindex="0">
                     Entrar
@@ -37,7 +38,7 @@
                 </button>
             </div>
 
-            <!-- 5.3. Área que sobrepõe e alterna os formulários de autenticação -->
+            <!-- 5.1.3. Área que sobrepõe e alterna os formulários de autenticação -->
             <div class="form-container">
 
                 <!-- 5.3.1. Login: credenciais, opções auxiliares e envio -->
@@ -156,7 +157,7 @@
             </div>
         </div>
 
-        <!-- 6. Área exibida quando a API confirma uma sessão autenticada -->
+        <!-- 6. Área de conta: a API confirma a sessão e o botão pede logout ao backend -->
         <section class="account-panel" id="account-panel" hidden aria-live="polite">
             <h2 id="account-greeting">Sessão ativa</h2>
             <p>Você está conectado à sua conta.</p>

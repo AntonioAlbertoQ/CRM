@@ -16,7 +16,9 @@ CREATE TABLE IF NOT EXISTS sessions (
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 3. Índices usados para localizar sessões por conta e limpar sessões vencidas.
 CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
 
+-- 4. Versão inicial do esquema para futuras migrações SQL.
 PRAGMA user_version = 1;

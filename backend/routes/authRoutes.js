@@ -9,6 +9,7 @@ import {
     registerAccount,
 } from '../services/authService.js';
 
+/* Cria cookie HttpOnly; a duração persistente só é enviada com "Lembrar-me". */
 function createSessionCookie(result) {
     const cookieParts = [
         `${getSessionCookieName()}=${result.token}`,
@@ -28,6 +29,7 @@ function createSessionCookie(result) {
     return cookieParts.join('; ');
 }
 
+/* Apaga o cookie no navegador ao sair da conta. */
 function clearedSessionCookie() {
     const cookieParts = [
         `${getSessionCookieName()}=`,
@@ -48,12 +50,14 @@ export async function authRoutes(req, res) {
     const requestUrl = new URL(req.url, 'http://localhost');
     const route = `${req.method} ${requestUrl.pathname}`;
 
+    /* Cadastro persiste uma conta e nunca devolve hash ou salt da senha. */
     if (route === 'POST /api/auth/register') {
         const user = await registerAccount(req.body);
         sendJson(res, 201, { user });
         return true;
     }
 
+    /* Login valida as credenciais e entrega o token apenas no cookie protegido. */
     if (route === 'POST /api/auth/login') {
         const result = await loginAccount(req.body);
         sendJson(res, 200, { user: result.user }, {
@@ -62,6 +66,7 @@ export async function authRoutes(req, res) {
         return true;
     }
 
+    /* Retorna os dados públicos da conta vinculada ao cookie atual. */
     if (route === 'GET /api/auth/me') {
         await requireAuth(req, res, async () => {
             sendJson(res, 200, { user: req.user });
@@ -69,6 +74,7 @@ export async function authRoutes(req, res) {
         return true;
     }
 
+    /* Logout remove a sessão do banco e expira o cookie no navegador. */
     if (route === 'POST /api/auth/logout') {
         const token = readSessionToken(req);
         endSession(token);

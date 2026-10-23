@@ -2,6 +2,7 @@
 import { HttpError } from '../errors.js';
 import { getAccountForSession, getSessionCookieName } from '../services/authService.js';
 
+/* Localiza o cookie da sessão sem aceitar valores de outros cookies. */
 export function readSessionToken(req) {
     const cookieName = getSessionCookieName();
     const cookieHeader = req.headers.cookie || '';
@@ -11,6 +12,7 @@ export function readSessionToken(req) {
     return cookie ? cookie.slice(cookieName.length + 1) : '';
 }
 
+/* Consulta a sessão no SQL e só encaminha a rota se a conta estiver autenticada. */
 export async function requireAuth(req, res, next) {
     const account = getAccountForSession(readSessionToken(req));
 

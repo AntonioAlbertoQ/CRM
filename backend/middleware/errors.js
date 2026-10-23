@@ -1,4 +1,5 @@
 /* Conversão central de erros para JSON; detalhes internos não são enviados ao navegador. */
+/* Serializa respostas da API com status, tipo de conteúdo e cabeçalhos comuns. */
 export function sendJson(res, status, value, headers = {}) {
     const body = JSON.stringify(value);
     res.writeHead(status, {
@@ -10,6 +11,7 @@ export function sendJson(res, status, value, headers = {}) {
     res.end(body);
 }
 
+/* Oculta detalhes do servidor em erros 5xx e mantém o identificador da requisição. */
 export function handleError(error, req, res) {
     if (res.headersSent) {
         res.destroy();
