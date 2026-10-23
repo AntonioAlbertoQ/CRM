@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-// Elementos DOM
+            /* ==================================================================
+               1. INICIALIZAÇÃO: referências aos elementos usados pela interface
+               ================================================================== */
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
             const gotoSignup = document.getElementById('goto-signup');
@@ -12,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const toastContainer = document.getElementById('toast-container');
 
             /* ------------------------------------------------------------------
-               A. Alternância entre Login e Cadastro
+               2. NAVEGAÇÃO: alternância entre login e cadastro
                ------------------------------------------------------------------ */
             gotoSignup.addEventListener('click', () => {
                 loginForm.classList.remove('active');
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               B. Alternar Visibilidade da Senha (Toggle Password)
+               3. SENHAS: alternar visibilidade e ícone do campo
                ------------------------------------------------------------------ */
             toggleButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               C. Sistema de Notificações Toast
+               4. NOTIFICAÇÕES: criar, exibir e remover mensagens toast
                ------------------------------------------------------------------ */
             function showToast(message, type = 'success') {
                 const toast = document.createElement('div');
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             /* ------------------------------------------------------------------
-               D. Simulação de Submissão e Validação do Login
+               5. LOGIN: validação básica e simulação de resposta do servidor
                ------------------------------------------------------------------ */
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -128,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               E. Simulação de Submissão do Cadastro
+               6. CADASTRO: validação dos dados e simulação de criação da conta
                ------------------------------------------------------------------ */
             signupForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -161,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               F. Evento Esqueceu a Senha
+               7. RECUPERAÇÃO: orientação para informar o e-mail
                ------------------------------------------------------------------ */
             forgotPasswordLink.addEventListener('click', (e) => {
                 e.preventDefault();

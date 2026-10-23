@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. BASE GLOBAL: redefinição de estilos e variáveis reutilizáveis da interface
+   ========================================================================== */
 * {
             margin: 0;
             padding: 0;
@@ -6,6 +9,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Tokens de cor, bordas, raios e transições reutilizados nos componentes */
         :root {
             --primary: #6366f1;
             --primary-hover: #4f46e5;
@@ -24,8 +28,9 @@
         }
 
         /* ==========================================================================
-           2. CORPO DA PÁGINA & GRADIENTE ANIMADO
+           2. FUNDO DA PÁGINA: layout, gradiente animado e elementos decorativos
            ========================================================================== */
+        /* Centraliza o cartão e anima o gradiente que preenche a janela */
         body {
             min-height: 100vh;
             display: flex;
@@ -39,13 +44,14 @@
             position: relative;
         }
 
+        /* Movimento gradual do gradiente de fundo */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Elementos decorativos em segundo plano para intensificar o efeito glassmorphism */
+        /* Base comum dos círculos desfocados usados como luz de fundo */
         .orb {
             position: absolute;
             border-radius: 50%;
@@ -54,6 +60,7 @@
             pointer-events: none;
         }
 
+        /* Posição, cor e movimento do primeiro círculo decorativo */
         .orb-1 {
             width: 300px;
             height: 300px;
@@ -63,6 +70,7 @@
             animation: float 8s ease-in-out infinite alternate;
         }
 
+        /* Posição, cor e movimento do segundo círculo decorativo */
         .orb-2 {
             width: 350px;
             height: 350px;
@@ -72,14 +80,16 @@
             animation: float 10s ease-in-out infinite alternate-reverse;
         }
 
+        /* Deslocamento vertical e escala dos círculos decorativos */
         @keyframes float {
             0% { transform: translateY(0) scale(1); }
             100% { transform: translateY(-30px) scale(1.08); }
         }
 
         /* ==========================================================================
-           3. CONTAINER GLASSMORPHISM
+           3. CARTÃO PRINCIPAL: superfície translúcida e cabeçalho
            ========================================================================== */
+        /* Superfície central com transparência, desfoque e sombra */
         .glass-card {
             position: relative;
             z-index: 1;
@@ -104,7 +114,7 @@
                         0 0 40px rgba(255, 255, 255, 0.08) inset;
         }
 
-        /* Header da interface */
+        /* Título e subtítulo centralizados no topo do cartão */
         .header {
             text-align: center;
             margin-bottom: 32px;
@@ -126,13 +136,15 @@
         }
 
         /* ==========================================================================
-           4. FORMULÁRIOS & CONTROLES DE ENTRADA (INPUTS)
+           4. FORMULÁRIOS E CAMPOS: alternância de telas, inputs e ícones
            ========================================================================== */
+        /* Área de referência que mantém os formulários sobrepostos */
         .form-container {
             position: relative;
             min-height: 380px;
         }
 
+        /* Estado padrão: formulário oculto e deslocado para a animação */
         .auth-form {
             position: absolute;
             width: 100%;
@@ -144,6 +156,7 @@
             transition: var(--transition);
         }
 
+        /* Estado visível: formulário ativo no fluxo da página */
         .auth-form.active {
             opacity: 1;
             visibility: visible;
@@ -151,12 +164,14 @@
             position: relative;
         }
 
+        /* Estado de saída usado ao alternar para o cadastro */
         .auth-form.exit-left {
             opacity: 0;
             visibility: hidden;
             transform: translateX(-30px);
         }
 
+        /* Agrupa o rótulo e o campo de cada dado solicitado */
         .input-group {
             margin-bottom: 20px;
             position: relative;
@@ -254,7 +269,7 @@
         }
 
         /* ==========================================================================
-           5. CHECKBOX & OPÇÕES ADICIONAIS
+           5. OPÇÕES AUXILIARES: lembrar-me e links de navegação/recuperação
            ========================================================================== */
         .actions-row {
             display: flex;
@@ -316,7 +331,7 @@
         }
 
         /* ==========================================================================
-           6. BOTÕES & INTERAÇÕES
+           6. AÇÕES DO FORMULÁRIO: botão de envio, carregamento e rodapé
            ========================================================================== */
         .btn-submit {
             width: 100%;
@@ -389,7 +404,7 @@
         }
 
         /* ==========================================================================
-           7. SISTEMA DE TOAST (NOTIFICAÇÕES FLUTUANTES)
+           7. NOTIFICAÇÕES: posicionamento, visual e estados dos toasts
            ========================================================================== */
         #toast-container {
             position: fixed;
@@ -437,7 +452,7 @@
             flex-shrink: 0;
         }
 
-        /* Responsive Design Adjustments */
+        /* 8. RESPONSIVIDADE: adapta cartão e notificações a telas estreitas */
         @media (max-width: 480px) {
             .glass-card {
                 padding: 28px 20px;
