@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- 1. Metadados: idioma, codificação, escala da tela e título da página -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connect System | Login E Cadastro</title>
+
+    <!-- 2. Arquivos externos de apresentação e comportamento -->
     <link rel="stylesheet" href="./assets/login/css/style.css">
     <script src="./assets/login/js/main.js" defer></script>
 </head>
-    <body>
-    <!-- Orbes de luz decorativos -->
+<body>
+    <!-- 3. Fundo decorativo: orbes posicionados atrás do conteúdo principal -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
-    <!-- Container de Toasts/Notificações -->
+    <!-- 4. Região onde o JavaScript insere notificações temporárias (toasts) -->
     <div id="toast-container"></div>
 
-    <!-- Cartão Principal Glassmorphism -->
+    <!-- 5. Cartão principal da interface de autenticação -->
     <main class="glass-card">
 
-        <!-- Cabeçalho Dinâmico -->
+        <!-- 5.1. Título e descrição atualizados ao alternar entre login e cadastro -->
         <header class="header">
             <h2 id="form-title">Bem-vindo de volta</h2>
             <p id="form-subtitle">Insira suas credenciais para acessar sua conta</p>
         </header>
 
+        <!-- 5.2. Área que sobrepõe e alterna os formulários de autenticação -->
         <div class="form-container">
 
-            <!-- ================= FORMULÁRIO DE LOGIN ================= -->
+            <!-- 5.2.1. Login: credenciais, opções auxiliares, envio e troca de tela -->
             <form id="login-form" class="auth-form active" novalidate>
 
-                <!-- Input Usuário / E-mail -->
+                <!-- Identificação da conta: aceita e-mail ou nome de usuário -->
                 <div class="input-group">
                     <label for="login-email">E-mail ou Usuário</label>
                     <div class="input-wrapper">
@@ -41,7 +45,7 @@
                     </div>
                 </div>
 
-                <!-- Input Senha -->
+                <!-- Senha de acesso e controle para exibir ou ocultar o valor -->
                 <div class="input-group">
                     <label for="login-password">Senha</label>
                     <div class="input-wrapper">
@@ -59,7 +63,7 @@
                     </div>
                 </div>
 
-                <!-- Ações do Form: Lembrar-me e Esqueceu a Senha -->
+                <!-- Opções auxiliares: lembrar a sessão e iniciar recuperação de senha -->
                 <div class="actions-row">
                     <label class="remember-me">
                         <input type="checkbox" id="remember-me">
@@ -68,23 +72,23 @@
                     <a href="#" class="forgot-link" id="forgot-password-link">Esqueceu a senha?</a>
                 </div>
 
-                <!-- Botão de Envio -->
+                <!-- Envio do login; o spinner é exibido durante a simulação de espera -->
                 <button type="submit" class="btn-submit">
                     <span class="btn-text">Entrar</span>
                     <div class="spinner"></div>
                 </button>
 
-                <!-- Alternador de Tela -->
+                <!-- Navegação para o formulário de cadastro -->
                 <div class="form-footer">
                     <span>Não tem uma conta?</span>
                     <a class="switch-link" id="goto-signup">Cadastre-se</a>
                 </div>
             </form>
 
-            <!-- ================= FORMULÁRIO DE CADASTRO ================= -->
+            <!-- 5.2.2. Cadastro: dados básicos, envio e retorno ao login -->
             <form id="signup-form" class="auth-form" novalidate>
 
-                <!-- Nome Completo -->
+                <!-- Identificação da nova conta -->
                 <div class="input-group">
                     <label for="signup-name">Nome Completo</label>
                     <div class="input-wrapper">
@@ -96,7 +100,7 @@
                     </div>
                 </div>
 
-                <!-- E-mail -->
+                <!-- Endereço de e-mail da nova conta -->
                 <div class="input-group">
                     <label for="signup-email">E-mail</label>
                     <div class="input-wrapper">
@@ -108,7 +112,7 @@
                     </div>
                 </div>
 
-                <!-- Senha -->
+                <!-- Criação da senha, com controle para exibir ou ocultar o valor -->
                 <div class="input-group">
                     <label for="signup-password">Criar Senha</label>
                     <div class="input-wrapper">
@@ -126,13 +130,13 @@
                     </div>
                 </div>
 
-                <!-- Botão de Cadastro -->
+                <!-- Envio do cadastro; o spinner é exibido durante a simulação de espera -->
                 <button type="submit" class="btn-submit">
                     <span class="btn-text">Criar Conta</span>
                     <div class="spinner"></div>
                 </button>
 
-                <!-- Alternador de Tela -->
+                <!-- Navegação de volta para o formulário de login -->
                 <div class="form-footer">
                     <span>Já possui uma conta?</span>
                     <a class="switch-link" id="goto-login">Faça Login</a>
