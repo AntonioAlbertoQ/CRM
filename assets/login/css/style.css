@@ -138,6 +138,45 @@
         /* ==========================================================================
            4. FORMULÁRIOS E CAMPOS: alternância de telas, inputs e ícones
            ========================================================================== */
+        /* Abas para alternar entre login e cadastro sem sair do cartão */
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 22px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px 14px;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .auth-tab:hover {
+            color: var(--text-main);
+        }
+
+        .auth-tab.active {
+            color: var(--text-main);
+            background: rgba(99, 102, 241, 0.38);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        }
+
+        .auth-tab:focus-visible {
+            outline: 2px solid var(--text-main);
+            outline-offset: 2px;
+        }
+
         /* Área de referência que mantém os formulários sobrepostos */
         .form-container {
             position: relative;
@@ -401,6 +440,30 @@
             color: #a5b4fc;
             cursor: pointer;
             margin-left: 4px;
+        }
+
+        /* Painel simples exibido depois que o backend confirma o login */
+        .account-panel {
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .account-panel[hidden],
+        #auth-shell[hidden] {
+            display: none;
+        }
+
+        .account-panel h2 {
+            font-size: 1.5rem;
+        }
+
+        .account-panel p {
+            color: var(--text-muted);
         }
 
         /* ==========================================================================

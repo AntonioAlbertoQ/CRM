@@ -1,0 +1,12 @@
+{
+  "name": "connect-system-crm",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "start": "node backend/server.js"
+  }
+}

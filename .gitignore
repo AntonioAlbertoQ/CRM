@@ -1,0 +1,12 @@
+# Banco e dados locais
+backend/data/*.sqlite
+backend/data/*.sqlite-*
+
+# Segredos locais e arquivos de ambiente
+.env
+.env.*
+!.env.example
+
+# Dependências e arquivos temporários
+node_modules/
+npm-debug.log*
