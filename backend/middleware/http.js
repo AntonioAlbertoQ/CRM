@@ -2,12 +2,14 @@
 import { randomUUID } from 'node:crypto';
 import { HttpError } from '../errors.js';
 
+/* Anexa um identificador para relacionar resposta e log de erro. */
 export async function requestContext(req, res, next) {
     req.id = randomUUID();
     res.setHeader('X-Request-Id', req.id);
     return next();
 }
 
+/* Define políticas do navegador; HSTS só é ativado no modo HTTPS de produção. */
 export async function securityHeaders(req, res, next) {
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'");
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -20,6 +22,7 @@ export async function securityHeaders(req, res, next) {
     return next();
 }
 
+/* Bloqueia mutações vindas de outro site para reduzir risco de CSRF. */
 export async function sameOriginOnly(req, res, next) {
     const requestUrl = new URL(req.url, 'http://localhost');
     const isMutation = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method);
@@ -51,6 +54,7 @@ export async function sameOriginOnly(req, res, next) {
     return next();
 }
 
+/* Lê somente JSON de rotas da API e impõe limite de 16 KiB por requisição. */
 export async function parseJsonBody(req, res, next) {
     req.body = {};
 
@@ -85,11 +89,13 @@ export async function parseJsonBody(req, res, next) {
     return next();
 }
 
+/* Tentativas máximas por rota em uma janela de 15 minutos por endereço IP. */
 const routeLimits = new Map([
     ['/api/auth/login', 10],
     ['/api/auth/register', 5],
 ]);
 
+/* Conta tentativas por IP e rota; exceder o máximo responde HTTP 429. */
 export async function rateLimit(req, res, next) {
     const requestUrl = new URL(req.url, 'http://localhost');
     const limit = routeLimits.get(requestUrl.pathname);
@@ -121,6 +127,7 @@ export async function rateLimit(req, res, next) {
     return next();
 }
 
+/* Guarda contadores em memória e remove entradas expiradas periodicamente. */
 rateLimit.entries = new Map();
 setInterval(() => {
     const now = Date.now();

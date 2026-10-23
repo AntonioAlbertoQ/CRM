@@ -24,6 +24,8 @@ Crie uma conta pela aba **Cadastrar** e use o e-mail e a senha cadastrados para 
 - `backend/repositories/`: consultas SQL parametrizadas.
 - `backend/database/schema.sql`: tabelas `users` e `sessions`.
 
+Os arquivos de HTML, CSS, JavaScript, SQL e backend incluem comentários por seção e por responsabilidade para localizar cada parte do fluxo. `package.json` permanece JSON válido (esse formato não permite comentários); o script `start` e a versão mínima do Node estão descritos acima.
+
 ## API inicial
 
 - `GET /api/health`: estado do servidor.

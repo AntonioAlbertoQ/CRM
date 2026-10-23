@@ -13,10 +13,12 @@ const scryptAsync = promisify(scrypt);
 const passwordKeyLength = 64;
 const sessionCookieName = 'crm_session';
 
+/* Normaliza o endereço para que o cadastro e o login ignorem diferenças de caixa. */
 function normalizeEmail(value) {
     return typeof value === 'string' ? value.trim().toLowerCase() : '';
 }
 
+/* Valida os campos antes de usar hash ou enviar valores a uma consulta SQL. */
 function validateRegistration({ name, email, password }) {
     if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 80) {
         throw new HttpError(400, 'Informe um nome entre 2 e 80 caracteres.');
@@ -31,11 +33,13 @@ function validateRegistration({ name, email, password }) {
     }
 }
 
+/* Gera um salt aleatório e deriva um hash de senha com scrypt. */
 async function hashPassword(password, salt = randomBytes(16).toString('hex')) {
     const hash = await scryptAsync(password, salt, passwordKeyLength);
     return { hash: hash.toString('hex'), salt };
 }
 
+/* Compara hashes em tempo constante para reduzir vazamento por tempo de execução. */
 function passwordMatches(password, salt, savedHash) {
     return hashPassword(password, salt).then(({ hash }) => {
         const candidate = Buffer.from(hash, 'hex');
@@ -44,6 +48,7 @@ function passwordMatches(password, salt, savedHash) {
     });
 }
 
+/* Cria a conta após validação e trata duplicidade de e-mail como conflito. */
 export async function registerAccount(input = {}) {
     const name = typeof input.name === 'string' ? input.name.trim() : '';
     const email = normalizeEmail(input.email);
@@ -72,6 +77,7 @@ export async function registerAccount(input = {}) {
     }
 }
 
+/* Autentica uma conta e grava no banco somente o hash do token aleatório. */
 export async function loginAccount(input = {}) {
     const email = normalizeEmail(input.emailOrName);
     const password = input.password;
@@ -102,14 +108,17 @@ export async function loginAccount(input = {}) {
     };
 }
 
+/* Expõe o nome do cookie aos módulos de rota e middleware. */
 export function getSessionCookieName() {
     return sessionCookieName;
 }
 
+/* Resolve a conta associada ao token recebido pelo cookie. */
 export function getAccountForSession(token) {
     return token ? findUserForSession(token) : null;
 }
 
+/* Invalida o token no banco durante o logout. */
 export function endSession(token) {
     if (token) {
         deleteSession(token);

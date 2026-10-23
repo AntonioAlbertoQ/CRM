@@ -236,12 +236,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 accountGreeting.textContent = `Olá, ${user.name}`;
             }
 
+            // Restaura a área autenticada quando o cookie já representa uma sessão válida.
             apiRequest('/api/auth/me')
                 .then(({ user }) => showAuthenticatedAccount(user))
                 .catch(() => {
                     // A interface continua disponível sem sessão ativa ou sem API conectada.
                 });
 
+            // Pede ao backend para invalidar a sessão antes de voltar ao formulário.
             logoutButton.addEventListener('click', async () => {
                 logoutButton.disabled = true;
                 try {
@@ -262,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
+                // Lê os dados e a preferência de e-mail antes de enviar o login.
                 const email = loginEmailInput.value.trim();
                 const password = document.getElementById('login-password').value;
                 const shouldRememberEmail = rememberMeInput.checked;
@@ -275,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 btnSubmit.classList.add('loading');
                 try {
+                    // O servidor verifica a senha e define o cookie HttpOnly da sessão.
                     const { user } = await apiRequest('/api/auth/login', {
                         method: 'POST',
                         body: JSON.stringify({
@@ -309,6 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             signupForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
+                // Lê os três campos que compõem a nova conta.
                 const name = document.getElementById('signup-name').value.trim();
                 const email = document.getElementById('signup-email').value.trim();
                 const password = document.getElementById('signup-password').value;
@@ -326,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 btnSubmit.classList.add('loading');
                 try {
+                    // Persiste a conta no backend; depois direciona a pessoa ao login.
                     await apiRequest('/api/auth/register', {
                         method: 'POST',
                         body: JSON.stringify({ name, email, password }),

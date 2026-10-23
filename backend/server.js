@@ -7,11 +7,14 @@ import { handleError, sendJson } from './middleware/errors.js';
 import { parseJsonBody, rateLimit, requestContext, sameOriginOnly, securityHeaders } from './middleware/http.js';
 import { serveStatic } from './middleware/staticFiles.js';
 
+/* 1. Remove sessões vencidas ao iniciar e depois a cada hora. */
 deleteExpiredSessions();
 setInterval(deleteExpiredSessions, 60 * 60 * 1000).unref();
 
+/* 2. Pipeline: identificação, segurança, origem, limite e leitura do corpo. */
 const middlewares = [requestContext, securityHeaders, sameOriginOnly, rateLimit, parseJsonBody];
 
+/* 3. Despacha saúde, API e arquivos da interface para seus módulos responsáveis. */
 async function routeRequest(req, res) {
     const requestUrl = new URL(req.url, 'http://localhost');
 
@@ -31,6 +34,7 @@ async function routeRequest(req, res) {
     await serveStatic(req, res);
 }
 
+/* 4. Executa cada middleware em ordem e só então resolve a rota final. */
 async function runMiddleware(req, res, index = 0) {
     if (index >= middlewares.length) {
         return routeRequest(req, res);
@@ -39,6 +43,7 @@ async function runMiddleware(req, res, index = 0) {
     return middlewares[index](req, res, () => runMiddleware(req, res, index + 1));
 }
 
+/* 5. Captura erros assíncronos e entrega a resposta ao middleware central de erros. */
 const server = createServer(async (req, res) => {
     try {
         await runMiddleware(req, res);
@@ -47,6 +52,7 @@ const server = createServer(async (req, res) => {
     }
 });
 
+/* 6. Usa variáveis do ambiente na hospedagem e valores locais por padrão. */
 const port = Number.parseInt(process.env.PORT || '3000', 10);
 const host = process.env.HOST || '127.0.0.1';
 
@@ -54,6 +60,7 @@ server.listen(port, host, () => {
     console.log(`CRM disponível em http://${host}:${port}`);
 });
 
+/* 7. Fecha o servidor e o banco de forma controlada ao receber sinal de parada. */
 function closeServer() {
     server.close(() => {
         database.close();
