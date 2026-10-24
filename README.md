@@ -1,6 +1,6 @@
 # Connect System CRM
 
-Aplicação de login e cadastro com interface HTML/CSS/JavaScript, API Node.js e persistência SQL em SQLite.
+Aplicação de login com interface HTML/CSS/JavaScript, API Node.js e persistência SQL em SQLite.
 
 ## Executar localmente
 
@@ -12,11 +12,11 @@ npm start
 
 Abra `http://localhost:3000`. Não abra `index.html` diretamente como `file://`: o navegador precisa acessar a API no mesmo servidor. O arquivo SQLite é criado automaticamente em `backend/data/crm.sqlite` e não é enviado ao Git.
 
-Crie uma conta pela aba **Cadastrar** e use o e-mail e a senha cadastrados para entrar. As senhas precisam ter de 8 a 128 caracteres e são armazenadas como hash com salt. A opção **Lembrar-me** mantém o e-mail no navegador e prolonga a sessão; não salva a senha.
+Use uma conta já existente para entrar. O cadastro público está desativado; a criação de usuários por uma conta administradora ainda não foi implementada. As senhas precisam ter de 8 a 128 caracteres e são armazenadas como hash com salt. A opção **Lembrar-me** mantém o e-mail no navegador e prolonga a sessão; não salva a senha.
 
 ## Organização das camadas
 
-- `index.html` e `assets/login/`: front-end, estilos, abas e cliente da API.
+- `index.html` e `assets/login/`: tela de login, estilos e cliente da API.
 - `backend/server.js`: inicialização HTTP, composição de middleware e rotas.
 - `backend/routes/`: endpoints de autenticação.
 - `backend/middleware/`: contexto, cabeçalhos de segurança, limite de tentativas, leitura JSON, autenticação, erros e arquivos estáticos.
@@ -29,7 +29,6 @@ Os arquivos de HTML, CSS, JavaScript, SQL e backend incluem comentários por se�
 ## API inicial
 
 - `GET /api/health`: estado do servidor.
-- `POST /api/auth/register`: cria uma conta.
 - `POST /api/auth/login`: valida credenciais e cria uma sessão em cookie `HttpOnly`.
 - `GET /api/auth/me`: retorna a conta da sessão atual.
 - `POST /api/auth/logout`: encerra a sessão.

@@ -6,13 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
                1. INICIALIZAÇÃO: referências aos elementos usados pela interface
                ================================================================== */
             const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const gotoSignup = document.getElementById('goto-signup');
-            const gotoLogin = document.getElementById('goto-login');
-            const loginTab = document.getElementById('login-tab');
-            const signupTab = document.getElementById('signup-tab');
-            const formTitle = document.getElementById('form-title');
-            const formSubtitle = document.getElementById('form-subtitle');
             const loginEmailInput = document.getElementById('login-email');
             const rememberMeInput = document.getElementById('remember-me');
             const forgotPasswordLink = document.getElementById('forgot-password-link');
@@ -25,82 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rememberedEmailKey = 'connect-system-remembered-email';
 
             /* ------------------------------------------------------------------
-               2. ABAS: alternância entre login e cadastro no mesmo cartão
-               ------------------------------------------------------------------ */
-            let tabTransitionTimer;
-
-            function updateActiveTab(showSignup) {
-                loginTab.classList.toggle('active', !showSignup);
-                loginTab.setAttribute('aria-selected', String(!showSignup));
-                loginTab.setAttribute('tabindex', showSignup ? '-1' : '0');
-                signupTab.classList.toggle('active', showSignup);
-                signupTab.setAttribute('aria-selected', String(showSignup));
-                signupTab.setAttribute('tabindex', showSignup ? '0' : '-1');
-            }
-
-            function showForm(showSignup) {
-                window.clearTimeout(tabTransitionTimer);
-                const currentForm = showSignup ? loginForm : signupForm;
-                const nextForm = showSignup ? signupForm : loginForm;
-
-                if (nextForm.classList.contains('active')) {
-                    updateActiveTab(showSignup);
-                    return;
-                }
-
-                currentForm.classList.remove('active');
-                currentForm.classList.add('exit-left');
-                nextForm.classList.remove('exit-left');
-                updateActiveTab(showSignup);
-                formTitle.textContent = showSignup ? 'Criar nova conta' : 'Bem-vindo de volta';
-                formSubtitle.textContent = showSignup
-                    ? 'Preencha os dados abaixo para se cadastrar'
-                    : 'Insira suas credenciais para acessar sua conta';
-
-                tabTransitionTimer = window.setTimeout(() => {
-                    nextForm.classList.add('active');
-                    currentForm.classList.remove('exit-left');
-                }, 150);
-            }
-
-            const showSignupForm = () => showForm(true);
-            const showLoginForm = () => showForm(false);
-
-            loginTab.addEventListener('click', showLoginForm);
-            signupTab.addEventListener('click', showSignupForm);
-            gotoSignup.addEventListener('click', (event) => {
-                event.preventDefault();
-                showSignupForm();
-            });
-            gotoLogin.addEventListener('click', (event) => {
-                event.preventDefault();
-                showLoginForm();
-            });
-
-            document.querySelector('.auth-tabs').addEventListener('keydown', (event) => {
-                const tabs = [loginTab, signupTab];
-                const currentIndex = tabs.indexOf(document.activeElement);
-                let nextIndex;
-
-                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-                    nextIndex = (currentIndex + 1) % tabs.length;
-                } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-                    nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-                } else if (event.key === 'Home') {
-                    nextIndex = 0;
-                } else if (event.key === 'End') {
-                    nextIndex = tabs.length - 1;
-                } else {
-                    return;
-                }
-
-                event.preventDefault();
-                tabs[nextIndex].focus();
-                (nextIndex === 0 ? showLoginForm : showSignupForm)();
-            });
-
-            /* ------------------------------------------------------------------
-               3. LEMBRAR-ME: persiste somente o e-mail, nunca a senha
+               2. LEMBRAR-ME: persiste somente o e-mail, nunca a senha
                ------------------------------------------------------------------ */
             function getRememberedEmail() {
                 try {
@@ -170,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               4. SENHAS: alternar visibilidade e ícone do campo
+               3. SENHAS: alternar visibilidade e ícone do campo
                ------------------------------------------------------------------ */
             toggleButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -197,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               5. NOTIFICAÇÕES: criar, exibir e remover mensagens toast
+               4. NOTIFICAÇÕES: criar, exibir e remover mensagens toast
                ------------------------------------------------------------------ */
             function showToast(message, type = 'success') {
                 const toast = document.createElement('div');
@@ -228,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             /* ------------------------------------------------------------------
-               6. SESSÃO: mostra o painel autenticado e consulta a sessão existente
+               5. SESSÃO: mostra o painel autenticado e consulta a sessão existente
                ------------------------------------------------------------------ */
             function showAuthenticatedAccount(user) {
                 authShell.hidden = true;
@@ -259,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               7. LOGIN: valida credenciais no backend e cria uma sessão SQL
+               6. LOGIN: valida credenciais no backend e cria uma sessão SQL
                ------------------------------------------------------------------ */
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -308,47 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             /* ------------------------------------------------------------------
-               8. CADASTRO: cria uma conta persistida no banco SQLite
-               ------------------------------------------------------------------ */
-            signupForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                // Lê os três campos que compõem a nova conta.
-                const name = document.getElementById('signup-name').value.trim();
-                const email = document.getElementById('signup-email').value.trim();
-                const password = document.getElementById('signup-password').value;
-                const btnSubmit = signupForm.querySelector('.btn-submit');
-
-                if (!name || !email || !password) {
-                    showToast('Por favor, preencha todos os campos.', 'error');
-                    return;
-                }
-
-                if (password.length < 8) {
-                    showToast('A senha deve ter pelo menos 8 caracteres.', 'error');
-                    return;
-                }
-
-                btnSubmit.classList.add('loading');
-                try {
-                    // Persiste a conta no backend; depois direciona a pessoa ao login.
-                    await apiRequest('/api/auth/register', {
-                        method: 'POST',
-                        body: JSON.stringify({ name, email, password }),
-                    });
-                    showToast('Conta criada. Faça login para continuar.', 'success');
-                    signupForm.reset();
-                    loginEmailInput.value = email;
-                    showLoginForm();
-                } catch (error) {
-                    showToast(error.message, 'error');
-                } finally {
-                    btnSubmit.classList.remove('loading');
-                }
-            });
-
-            /* ------------------------------------------------------------------
-               9. RECUPERAÇÃO: informa que o envio de e-mail ainda não foi configurado
+               7. RECUPERAÇÃO: informa que o envio de e-mail ainda não foi configurado
                ------------------------------------------------------------------ */
             forgotPasswordLink.addEventListener('click', (e) => {
                 e.preventDefault();

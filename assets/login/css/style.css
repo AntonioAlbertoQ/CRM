@@ -138,49 +138,9 @@
         /* ==========================================================================
            4. FORMULÁRIOS E CAMPOS: alternância de telas, inputs e ícones
            ========================================================================== */
-        /* Abas para alternar entre login e cadastro sem sair do cartão */
-        .auth-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 22px;
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius-md);
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 10px 14px;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .auth-tab:hover {
-            color: var(--text-main);
-        }
-
-        .auth-tab.active {
-            color: var(--text-main);
-            background: rgba(99, 102, 241, 0.38);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-        }
-
-        .auth-tab:focus-visible {
-            outline: 2px solid var(--text-main);
-            outline-offset: 2px;
-        }
-
-        /* Área de referência que mantém os formulários sobrepostos */
+        /* Área do formulário de login */
         .form-container {
             position: relative;
-            min-height: 380px;
         }
 
         /* Estado padrão: formulário oculto e deslocado para a animação */
@@ -201,13 +161,6 @@
             visibility: visible;
             transform: translateX(0);
             position: relative;
-        }
-
-        /* Estado de saída usado ao alternar para o cadastro */
-        .auth-form.exit-left {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(-30px);
         }
 
         /* Agrupa o rótulo e o campo de cada dado solicitado */
@@ -357,20 +310,20 @@
             transform: rotate(45deg);
         }
 
-        .forgot-link, .switch-link {
+        .forgot-link {
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
         }
 
-        .forgot-link:hover, .switch-link:hover {
+        .forgot-link:hover {
             color: var(--text-main);
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
         /* ==========================================================================
-           6. AÇÕES DO FORMULÁRIO: botão de envio, carregamento e rodapé
+           6. AÇÕES DO FORMULÁRIO: botão de envio e carregamento
            ========================================================================== */
         .btn-submit {
             width: 100%;
@@ -426,20 +379,6 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-
-        /* Footer de troca de formulário */
-        .form-footer {
-            margin-top: 24px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .switch-link {
-            color: #a5b4fc;
-            cursor: pointer;
-            margin-left: 4px;
         }
 
         /* Painel simples exibido depois que o backend confirma o login */

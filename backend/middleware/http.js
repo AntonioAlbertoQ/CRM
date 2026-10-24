@@ -92,7 +92,6 @@ export async function parseJsonBody(req, res, next) {
 /* Tentativas máximas por rota em uma janela de 15 minutos por endereço IP. */
 const routeLimits = new Map([
     ['/api/auth/login', 10],
-    ['/api/auth/register', 5],
 ]);
 
 /* Conta tentativas por IP e rota; exceder o máximo responde HTTP 429. */

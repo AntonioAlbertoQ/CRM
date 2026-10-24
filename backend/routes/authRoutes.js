@@ -1,4 +1,4 @@
-/* Endpoints de cadastro, login, leitura e encerramento da sessão. */
+/* Endpoints de login, leitura e encerramento da sessão. */
 import { HttpError } from '../errors.js';
 import { requireAuth, readSessionToken } from '../middleware/auth.js';
 import { sendJson } from '../middleware/errors.js';
@@ -6,7 +6,6 @@ import {
     endSession,
     getSessionCookieName,
     loginAccount,
-    registerAccount,
 } from '../services/authService.js';
 
 /* Cria cookie HttpOnly; a duração persistente só é enviada com "Lembrar-me". */
@@ -49,13 +48,6 @@ function clearedSessionCookie() {
 export async function authRoutes(req, res) {
     const requestUrl = new URL(req.url, 'http://localhost');
     const route = `${req.method} ${requestUrl.pathname}`;
-
-    /* Cadastro persiste uma conta e nunca devolve hash ou salt da senha. */
-    if (route === 'POST /api/auth/register') {
-        const user = await registerAccount(req.body);
-        sendJson(res, 201, { user });
-        return true;
-    }
 
     /* Login valida as credenciais e entrega o token apenas no cookie protegido. */
     if (route === 'POST /api/auth/login') {
